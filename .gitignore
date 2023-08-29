@@ -1,0 +1,10 @@
+.idea/
+process/
+complete/
+env/
+venv/
+**__pycache__/
+Thumbs.db
+.DS_Store
+*.bat
+*.cmd
