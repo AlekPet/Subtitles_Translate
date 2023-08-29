@@ -196,7 +196,7 @@ if __name__ == '__main__':
     parser.add_argument("--cli", action=argparse.BooleanOptionalAction, help="Use interface")
     parser.add_argument("--tS", dest="trans_src", default="", type=str, help="Source language (empty detect language auto)")
     parser.add_argument("--tT", dest="trans_to", default="ru", type=str, help="Translate to language")
-    parser.add_argument("--la", action=argparse.BooleanOptionalAction)
+    parser.add_argument("--la", action=argparse.BooleanOptionalAction, help="List support languages")
     parser.add_argument("--p", dest="path_proccess", help="Path to srt files", type=str)
     parser.add_argument("--sl", dest="time_sleep", help="Sleep tim in seconds", default=3, type=int)
     parser.add_argument("--al", dest="after_lines", help="Sleep program after line", default=100, type=int)
