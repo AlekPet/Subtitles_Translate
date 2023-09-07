@@ -40,11 +40,13 @@ def translate_subtitles(path, args):
     if isinstance(args, argparse.Namespace):
         from_src = args.trans_src
         trans_to = args.trans_to
+        sleep = args.sleep
         time_sleep = args.time_sleep
         after_lines = args.after_lines
     else:
         from_src = args.get("trans_src", '')
         trans_to = args.get("trans_to", 'ru')
+        sleep = args.get("sleep", False)   
         time_sleep = args.get("time_sleep", 3)
         after_lines = args.get("after_lines", 100)        
 
@@ -78,10 +80,7 @@ def translate_subtitles(path, args):
                 step = 100 / len(lines)
 
                 for k, line in enumerate(lines):
-                    line_ = line.rstrip('\n')
-
-                    print_out = 'Обработка файла "' + file + '" : ({0:1.1f}%) [Файл: {1} из {2}] [Lines: {3}]'.format(prog, k_file+1, srt_len, len_lines)
-                    print(print_out, end='\r', flush=True)                    
+                    line_ = line.rstrip('\n')                  
 
                     if not regx.search(line_) and len(line_) != 0:
                         if from_src:
@@ -92,10 +91,12 @@ def translate_subtitles(path, args):
                     else:
                         new_file.write(line)
 
-                    if len_lines > after_lines and k!=0 and k % after_lines == 0:
+                    if sleep and len_lines > after_lines and k!=0 and k % after_lines == 0:
                         time.sleep(time_sleep)
                         
                     prog += step
+                    print_out = 'Обработка файла "' + file + '" : ({0:1.1f}%) [Файл: {1} из {2}] [Lines: {3}]'.format(prog, k_file+1, srt_len, len_lines)
+                    print(print_out, end='\r', flush=True)  
 
         shutil.move(abs_path, new_name_)
         complete_files += 1
@@ -135,7 +136,12 @@ e -> завершить работу
             check_exists_folders()
             trans_src = input('С какого языка переводить (пустой ответ опред. автомвтически)?: ')
             trans_to = input('На какой язык перевести?: ')
+            sleep = False
+
             path_proccess = os.path.join(os.path.dirname(__file__), 'process')
+
+            if input("Включить задержку?: ") in ('yes','y','1'):
+                sleep = True
             
             if input("Укажить путь к srt файлам?: ") in ('yes','y','1'):
                 path_proccess = input("Введите путь: ")
@@ -146,7 +152,8 @@ e -> завершить работу
 
                 trans_params = {
                     "trans_src": trans_src,
-                    "trans_to": trans_to
+                    "trans_to": trans_to,
+                    "sleep": sleep
                     }
 
                 for root, dirs_, files in os.walk(path_proccess):
@@ -198,7 +205,8 @@ if __name__ == '__main__':
     parser.add_argument("--tT", dest="trans_to", default="ru", type=str, help="Translate to language")
     parser.add_argument("--la", action=argparse.BooleanOptionalAction, help="List support languages")
     parser.add_argument("--p", dest="path_proccess", help="Path to srt files", type=str)
-    parser.add_argument("--sl", dest="time_sleep", help="Sleep tim in seconds", default=3, type=int)
+    parser.add_argument("--sleep", action=argparse.BooleanOptionalAction, help="Enable sleep")
+    parser.add_argument("--st", dest="time_sleep", help="Sleep time in seconds", default=3, type=int)
     parser.add_argument("--al", dest="after_lines", help="Sleep program after line", default=100, type=int)
     
     args = parser.parse_args()

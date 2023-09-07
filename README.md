@@ -26,12 +26,13 @@ usage: subtitles_translate.py [-h] [--cli | --no-cli] [--tS TRANS_SRC] [--tT TRA
 Translate subtitles
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --cli, --no-cli    Use interface
-  --tS TRANS_SRC     Source language (empty detect language auto)
-  --tT TRANS_TO      Translate to language
-  --la, --no-la      List support languages
-  --p PATH_PROCCESS  Path to srt files
-  --sl TIME_SLEEP    Sleep tim in seconds
-  --al AFTER_LINES   Sleep program after line
+  -h, --help          show this help message and exit
+  --cli, --no-cli     Use interface
+  --tS TRANS_SRC      Source language (empty detect language auto)
+  --tT TRANS_TO       Translate to language
+  --la, --no-la       List support languages
+  --p PATH_PROCCESS   Path to srt files
+  --sleep, --no-sleep Enable sleep
+  --sl TIME_SLEEP     Sleep tim in seconds
+  --al AFTER_LINES    Sleep program after line
 ```
